@@ -203,8 +203,16 @@ class MedGemmaAgent:
 
         self._print("Initializing MedGemma agent...")
 
+        import os
         import torch
         from transformers import pipeline
+
+        # Authenticate with HF Hub if a token is provided (required for gated models)
+        hf_token = os.environ.get("HF_TOKEN")
+        if hf_token:
+            from huggingface_hub import login
+            login(token=hf_token, add_to_git_credential=False)
+            self._print("Authenticated with HF Hub")
 
         self._print(f"Loading model: {self.model_id}")
 
