@@ -207,12 +207,14 @@ class MedGemmaAgent:
         import torch
         from transformers import pipeline
 
-        # Authenticate with HF Hub if a token is provided (required for gated models)
+        # Authenticate with HF Hub (required for gated models like MedGemma)
         hf_token = os.environ.get("HF_TOKEN")
         if hf_token:
             from huggingface_hub import login
             login(token=hf_token, add_to_git_credential=False)
             self._print("Authenticated with HF Hub")
+        else:
+            self._print("Warning: HF_TOKEN not set — gated models will fail")
 
         self._print(f"Loading model: {self.model_id}")
 
@@ -235,7 +237,8 @@ class MedGemmaAgent:
         self.pipe = pipeline(
             "image-text-to-text",
             model=self.model_id,
-            model_kwargs=model_kwargs
+            model_kwargs=model_kwargs,
+            token=hf_token,  # pass explicitly in addition to login()
         )
 
         self._print(f"Model loaded in {time.time() - start:.1f}s")
