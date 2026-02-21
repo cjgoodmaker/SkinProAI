@@ -25,4 +25,5 @@ test*.py
 test*.jpg
 test*.png
 frontend/
-mcp_server/
+# mcp_server is needed at runtime (spawned as subprocess by medgemma_agent)
+# mcp_server/
