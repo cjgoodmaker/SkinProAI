@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.Python
+venv/
+.venv/
+*.egg
+
+# Environment
+.env
+.env.*
+
+# Node
+web/node_modules/
+web/dist/
+web/.vite/
+
+# Patient data — never commit
+data/uploads/
+data/patient_chats/
+data/lesions/
+data/patients.json
+
+# Model weights (large binaries — store separately)
+models/*.pt
+models/*.pth
+models/*.bin
+models/*.safetensors
+
+# macOS
+.DS_Store
+
+# Test artifacts
+test*.jpg
+test*.png
+*.log
+
+# Clinical guidelines PDFs (copyrighted — obtain separately)
+guidelines/*.pdf
+
+# Temp
+/tmp/

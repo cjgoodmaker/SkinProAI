@@ -1,0 +1,28 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.env
+
+# Frontend dev artifacts (only dist is needed)
+web/node_modules/
+web/.vite/
+
+# Local data — don't ship patient records or uploads
+data/uploads/
+data/patient_chats/
+data/lesions/
+data/patients.json
+
+# Misc
+.git/
+.gitignore
+*.md
+test*.py
+test*.jpg
+test*.png
+frontend/
+mcp_server/

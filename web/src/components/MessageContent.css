@@ -1,0 +1,250 @@
+/* ─── Root ───────────────────────────────────────────────────────────────── */
+.mc-root {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--gray-800);
+  width: 100%;
+}
+
+/* ─── Stage header ───────────────────────────────────────────────────────── */
+.mc-stage {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 8px 0 2px;
+  border-top: 1px solid var(--gray-100);
+  margin-top: 4px;
+}
+
+.mc-stage:first-child {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* ─── Thinking text ──────────────────────────────────────────────────────── */
+.mc-thinking {
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+  font-style: italic;
+}
+
+/* ─── Response block (markdown) ──────────────────────────────────────────── */
+.mc-response {
+  color: var(--gray-800);
+}
+
+.mc-response p {
+  margin: 0 0 8px;
+}
+
+.mc-response p:last-child {
+  margin-bottom: 0;
+}
+
+.mc-response strong {
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.mc-response em {
+  font-style: italic;
+}
+
+.mc-response ul,
+.mc-response ol {
+  margin: 4px 0 8px 20px;
+  padding: 0;
+}
+
+.mc-response li {
+  margin-bottom: 2px;
+}
+
+.mc-response h1,
+.mc-response h2,
+.mc-response h3,
+.mc-response h4 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 10px 0 4px;
+}
+
+.mc-response code {
+  font-family: monospace;
+  font-size: 0.875em;
+  background: var(--gray-100);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ─── Tool output (monospace block) ─────────────────────────────────────── */
+.mc-tool-output {
+  background: var(--gray-900);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mc-tool-output-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 6px 12px 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mc-tool-output pre {
+  margin: 0;
+  padding: 10px 12px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #e2e8f0;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* ─── Image blocks (GradCAM, comparison) ────────────────────────────────── */
+.mc-image-block {
+  margin-top: 4px;
+}
+
+.mc-image-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.mc-gradcam-img {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 10px;
+  border: 1px solid var(--gray-200);
+  display: block;
+}
+
+.mc-comparison-img {
+  width: 100%;
+  max-width: 560px;
+  border-radius: 10px;
+  border: 1px solid var(--gray-200);
+  display: block;
+}
+
+/* ─── GradCAM side-by-side comparison ───────────────────────────────────── */
+.mc-gradcam-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 560px;
+}
+
+.mc-gradcam-compare-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mc-gradcam-compare-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  text-align: center;
+}
+
+.mc-gradcam-compare-img {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--gray-200);
+  display: block;
+}
+
+/* ─── Result / error / complete / observation ───────────────────────────── */
+.mc-result {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #15803d;
+}
+
+.mc-error {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  color: #dc2626;
+}
+
+.mc-complete {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  text-align: right;
+}
+
+.mc-observation {
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  font-style: italic;
+}
+
+/* ─── Plain streaming text ───────────────────────────────────────────────── */
+.mc-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--gray-700);
+  font-size: 0.875rem;
+}
+
+/* ─── References ─────────────────────────────────────────────────────────── */
+.mc-references {
+  border-top: 1px solid var(--gray-100);
+  padding-top: 8px;
+  margin-top: 4px;
+}
+
+.mc-references-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.mc-ref-item {
+  font-size: 0.8125rem;
+  color: var(--gray-600);
+  line-height: 1.5;
+}
+
+.mc-ref-sup {
+  font-size: 0.6875rem;
+  vertical-align: super;
+  margin-right: 4px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.mc-ref-source {
+  font-style: italic;
+}
+
+.mc-ref-page {
+  color: var(--gray-400);
+}
