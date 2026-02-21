@@ -25,10 +25,6 @@ data/lesions/
 data/patients.json
 
 # Model weights (large binaries — store separately)
-models/*.pt
-models/*.pth
-models/*.bin
-models/*.safetensors
 
 # macOS
 .DS_Store
