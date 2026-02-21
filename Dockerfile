@@ -29,6 +29,7 @@ WORKDIR /app
 # Copy application source
 COPY --chown=user models/ models/
 COPY --chown=user backend/ backend/
+COPY --chown=user mcp_server/ mcp_server/
 COPY --chown=user data/case_store.py data/case_store.py
 COPY --chown=user guidelines/ guidelines/
 
