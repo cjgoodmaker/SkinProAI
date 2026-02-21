@@ -7,13 +7,14 @@ ENV PATH="/home/user/.local/bin:$PATH"
 
 WORKDIR /app
 
-# Install Node.js for building the React frontend
+# Install curl first, then use it to add the NodeSource repo, then install Node.js
 RUN apt-get update && \
+    apt-get install -y curl && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs curl && \
+    apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies as root (faster) then hand off to user
+# Install Python dependencies
 COPY --chown=user requirements.txt ml-requirements.txt
 COPY --chown=user backend/requirements.txt api-requirements.txt
 RUN pip install --no-cache-dir -r ml-requirements.txt -r api-requirements.txt
