@@ -38,10 +38,41 @@ class MCPClient:
         self._process.stdin.write(line)
         self._process.stdin.flush()
 
-    def _recv(self) -> dict:
+    def _drain_stderr(self):
+        """Read any available stderr from the subprocess and print it."""
+        if self._process and self._process.stderr:
+            import select
+            while select.select([self._process.stderr], [], [], 0)[0]:
+                line = self._process.stderr.readline()
+                if line:
+                    print(f"[MCP stderr] {line.strip()}", flush=True)
+                else:
+                    break
+
+    def _recv(self, timeout: int = 300) -> dict:
+        import select
+        deadline = time.time() + timeout
         while True:
+            remaining = deadline - time.time()
+            if remaining <= 0:
+                self._drain_stderr()
+                raise RuntimeError(
+                    f"MCP server did not respond within {timeout}s"
+                )
+            ready, _, _ = select.select(
+                [self._process.stdout], [], [], min(remaining, 5)
+            )
+            if not ready:
+                # Check if subprocess died
+                if self._process.poll() is not None:
+                    self._drain_stderr()
+                    raise RuntimeError(
+                        f"MCP server exited with code {self._process.returncode}"
+                    )
+                continue
             line = self._process.stdout.readline()
             if not line:
+                self._drain_stderr()
                 raise RuntimeError("MCP server closed connection unexpectedly")
             line = line.strip()
             if not line:
@@ -254,9 +285,7 @@ class MedGemmaAgent:
         # Clear default max_length (20) from generation_config to avoid conflict
         # with max_new_tokens passed at inference time
         if hasattr(self.pipe.model, "generation_config"):
-            gc = self.pipe.model.generation_config
-            gc.max_length = None
-            gc.max_new_tokens = 400
+            self.pipe.model.generation_config.max_length = None
 
         self._print(f"Model loaded in {time.time() - start:.1f}s")
         self.loaded = True
@@ -291,6 +320,8 @@ class MedGemmaAgent:
             return
         self.mcp_client = MCPClient()
         self.mcp_client.start()
+        self._print("MCP server started successfully")
+        self.mcp_client._drain_stderr()
         self.tools_loaded = True
 
     def _multi_pass_visual_exam(self, image, question: Optional[str] = None) -> Generator[str, None, Dict[str, str]]:
