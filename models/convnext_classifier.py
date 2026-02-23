@@ -3,6 +3,7 @@ ConvNeXt Classifier Tool - Skin lesion classification using ConvNeXt + MONET fea
 Loads seed42_fold0.pt checkpoint and performs classification.
 """
 
+import os
 import torch
 import torch.nn as nn
 import numpy as np
@@ -173,8 +174,11 @@ class ConvNeXtClassifier:
         if self.loaded:
             return
 
-        # Determine device
-        if self.device is None:
+        # Determine device (respect SKINPRO_TOOL_DEVICE override for GPU sharing)
+        forced = os.environ.get("SKINPRO_TOOL_DEVICE")
+        if forced:
+            self.device = forced
+        elif self.device is None:
             if torch.cuda.is_available():
                 self.device = "cuda"
             elif torch.backends.mps.is_available():

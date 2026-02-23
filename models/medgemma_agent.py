@@ -76,6 +76,10 @@ class MCPClient:
         """Spawn the MCP server subprocess and complete the handshake."""
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         server_script = os.path.join(root, "mcp_server", "server.py")
+        # Force MCP tool models (MONET, ConvNeXt) onto CPU so they don't
+        # compete with MedGemma for GPU VRAM (T4 has only 16 GB).
+        env = os.environ.copy()
+        env["SKINPRO_TOOL_DEVICE"] = "cpu"
         self._process = subprocess.Popen(
             [sys.executable, server_script],  # use same venv Python (has all ML packages)
             stdin=subprocess.PIPE,
@@ -83,6 +87,7 @@ class MCPClient:
             stderr=subprocess.PIPE,
             text=True,
             bufsize=1,  # line-buffered
+            env=env,
         )
         self._initialize()
 
@@ -246,10 +251,12 @@ class MedGemmaAgent:
             tokenizer=processor.tokenizer,
         )
 
-        # Clear default max_length from generation_config to avoid conflict
+        # Clear default max_length (20) from generation_config to avoid conflict
         # with max_new_tokens passed at inference time
         if hasattr(self.pipe.model, "generation_config"):
-            self.pipe.model.generation_config.max_length = None
+            gc = self.pipe.model.generation_config
+            gc.max_length = None
+            gc.max_new_tokens = 400
 
         self._print(f"Model loaded in {time.time() - start:.1f}s")
         self.loaded = True

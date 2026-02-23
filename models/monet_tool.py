@@ -3,6 +3,7 @@ MONET Tool - Skin lesion feature extraction using MONET model
 Correct implementation based on MONET tutorial: automatic_concept_annotation.ipynb
 """
 
+import os
 import torch
 import torch.nn.functional as F
 import numpy as np
@@ -90,8 +91,11 @@ class MonetTool:
         if self.loaded:
             return
 
-        # Determine device
-        if self.device is None:
+        # Determine device (respect SKINPRO_TOOL_DEVICE override for GPU sharing)
+        forced = os.environ.get("SKINPRO_TOOL_DEVICE")
+        if forced:
+            self.device = forced
+        elif self.device is None:
             if torch.cuda.is_available():
                 self.device = "cuda:0"
             elif torch.backends.mps.is_available():
