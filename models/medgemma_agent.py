@@ -229,7 +229,7 @@ class MedGemmaAgent:
             self._print("Using CPU")
 
         model_kwargs = dict(
-            torch_dtype=torch.bfloat16 if device != "cpu" else torch.float32,
+            dtype=torch.bfloat16 if device != "cpu" else torch.float32,
             device_map="auto",
         )
 
