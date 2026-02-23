@@ -38,24 +38,12 @@ class MCPClient:
         self._process.stdin.write(line)
         self._process.stdin.flush()
 
-    def _drain_stderr(self):
-        """Read any available stderr from the subprocess and print it."""
-        if self._process and self._process.stderr:
-            import select
-            while select.select([self._process.stderr], [], [], 0)[0]:
-                line = self._process.stderr.readline()
-                if line:
-                    print(f"[MCP stderr] {line.strip()}", flush=True)
-                else:
-                    break
-
     def _recv(self, timeout: int = 300) -> dict:
         import select
         deadline = time.time() + timeout
         while True:
             remaining = deadline - time.time()
             if remaining <= 0:
-                self._drain_stderr()
                 raise RuntimeError(
                     f"MCP server did not respond within {timeout}s"
                 )
@@ -65,14 +53,12 @@ class MCPClient:
             if not ready:
                 # Check if subprocess died
                 if self._process.poll() is not None:
-                    self._drain_stderr()
                     raise RuntimeError(
                         f"MCP server exited with code {self._process.returncode}"
                     )
                 continue
             line = self._process.stdout.readline()
             if not line:
-                self._drain_stderr()
                 raise RuntimeError("MCP server closed connection unexpectedly")
             line = line.strip()
             if not line:
@@ -111,13 +97,17 @@ class MCPClient:
         # compete with MedGemma for GPU VRAM (T4 has only 16 GB).
         env = os.environ.copy()
         env["SKINPRO_TOOL_DEVICE"] = "cpu"
+        # stderr inherits parent's stderr (not PIPE) to avoid deadlock:
+        # when the subprocess downloads models, progress output fills the
+        # 64KB pipe buffer and blocks the subprocess while the main process
+        # is blocked waiting on stdout — classic subprocess deadlock.
         self._process = subprocess.Popen(
-            [sys.executable, server_script],  # use same venv Python (has all ML packages)
+            [sys.executable, server_script],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            stderr=None,  # inherit parent stderr
             text=True,
-            bufsize=1,  # line-buffered
+            bufsize=1,
             env=env,
         )
         self._initialize()
@@ -321,7 +311,6 @@ class MedGemmaAgent:
         self.mcp_client = MCPClient()
         self.mcp_client.start()
         self._print("MCP server started successfully")
-        self.mcp_client._drain_stderr()
         self.tools_loaded = True
 
     def _multi_pass_visual_exam(self, image, question: Optional[str] = None) -> Generator[str, None, Dict[str, str]]:
