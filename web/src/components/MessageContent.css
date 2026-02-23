@@ -5,19 +5,19 @@
   gap: 6px;
   font-size: 0.9375rem;
   line-height: 1.6;
-  color: var(--gray-800);
+  color: #333333;
   width: 100%;
 }
 
 /* ─── Stage header ───────────────────────────────────────────────────────── */
 .mc-stage {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  color: var(--primary);
+  color: #999999;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   padding: 8px 0 2px;
-  border-top: 1px solid var(--gray-100);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
   margin-top: 4px;
 }
 
@@ -29,14 +29,39 @@
 
 /* ─── Thinking text ──────────────────────────────────────────────────────── */
 .mc-thinking {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.8125rem;
-  color: var(--gray-500);
+  color: #999999;
   font-style: italic;
+}
+
+.mc-thinking-spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-top-color: #999999;
+  border-radius: 50%;
+  animation: mc-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+.mc-thinking-done {
+  width: 6px;
+  height: 6px;
+  background: #bbbbbb;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+@keyframes mc-spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ─── Response block (markdown) ──────────────────────────────────────────── */
 .mc-response {
-  color: var(--gray-800);
+  color: #333333;
 }
 
 .mc-response p {
@@ -49,7 +74,7 @@
 
 .mc-response strong {
   font-weight: 600;
-  color: var(--gray-900);
+  color: #1a1a1a;
 }
 
 .mc-response em {
@@ -72,29 +97,29 @@
 .mc-response h4 {
   font-size: 0.9375rem;
   font-weight: 600;
-  color: var(--gray-900);
+  color: #111111;
   margin: 10px 0 4px;
 }
 
 .mc-response code {
   font-family: monospace;
   font-size: 0.875em;
-  background: var(--gray-100);
+  background: rgba(0, 0, 0, 0.05);
   padding: 1px 5px;
   border-radius: 4px;
 }
 
 /* ─── Tool output (monospace block) ─────────────────────────────────────── */
 .mc-tool-output {
-  background: var(--gray-900);
-  border-radius: 8px;
+  background: #1a1a1a;
+  border-radius: 10px;
   overflow: hidden;
 }
 
 .mc-tool-output-label {
   font-size: 0.6875rem;
   font-weight: 600;
-  color: var(--gray-400);
+  color: #777777;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 6px 12px 4px;
@@ -108,7 +133,7 @@
   font-family: 'SF Mono', 'Fira Code', monospace;
   font-size: 0.8rem;
   line-height: 1.5;
-  color: #e2e8f0;
+  color: #e0e0e0;
   white-space: pre;
   overflow-x: auto;
 }
@@ -119,9 +144,9 @@
 }
 
 .mc-image-label {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  color: var(--gray-500);
+  color: #999999;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 6px;
@@ -130,16 +155,16 @@
 .mc-gradcam-img {
   width: 100%;
   max-width: 380px;
-  border-radius: 10px;
-  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   display: block;
 }
 
 .mc-comparison-img {
   width: 100%;
   max-width: 560px;
-  border-radius: 10px;
-  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   display: block;
 }
 
@@ -160,22 +185,22 @@
 .mc-gradcam-compare-title {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--gray-600);
+  color: #666666;
   text-align: center;
 }
 
 .mc-gradcam-compare-img {
   width: 100%;
-  border-radius: 8px;
-  border: 1px solid var(--gray-200);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   display: block;
 }
 
 /* ─── Result / error / complete / observation ───────────────────────────── */
 .mc-result {
-  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-  border: 1px solid #86efac;
-  border-radius: 8px;
+  background: rgba(22, 163, 74, 0.08);
+  border: 1px solid rgba(22, 163, 74, 0.15);
+  border-radius: 10px;
   padding: 8px 12px;
   font-size: 0.875rem;
   font-weight: 500;
@@ -183,9 +208,9 @@
 }
 
 .mc-error {
-  background: #fef2f2;
-  border: 1px solid #fca5a5;
-  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 10px;
   padding: 8px 12px;
   font-size: 0.875rem;
   color: #dc2626;
@@ -193,13 +218,13 @@
 
 .mc-complete {
   font-size: 0.8rem;
-  color: var(--gray-400);
+  color: #bbbbbb;
   text-align: right;
 }
 
 .mc-observation {
   font-size: 0.875rem;
-  color: var(--gray-600);
+  color: #666666;
   font-style: italic;
 }
 
@@ -207,21 +232,21 @@
 .mc-text {
   white-space: pre-wrap;
   word-break: break-word;
-  color: var(--gray-700);
+  color: #444444;
   font-size: 0.875rem;
 }
 
 /* ─── References ─────────────────────────────────────────────────────────── */
 .mc-references {
-  border-top: 1px solid var(--gray-100);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
   padding-top: 8px;
   margin-top: 4px;
 }
 
 .mc-references-title {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  color: var(--gray-500);
+  color: #999999;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 4px;
@@ -229,7 +254,7 @@
 
 .mc-ref-item {
   font-size: 0.8125rem;
-  color: var(--gray-600);
+  color: #666666;
   line-height: 1.5;
 }
 
@@ -237,7 +262,7 @@
   font-size: 0.6875rem;
   vertical-align: super;
   margin-right: 4px;
-  color: var(--primary);
+  color: #555555;
   font-weight: 600;
 }
 
@@ -246,5 +271,5 @@
 }
 
 .mc-ref-page {
-  color: var(--gray-400);
+  color: #aaaaaa;
 }

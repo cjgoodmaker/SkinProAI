@@ -7,6 +7,13 @@ import { MessageContent } from '../components/MessageContent';
 import { Patient, ChatMessage, ToolCall } from '../types';
 import './ChatPage.css';
 
+function formatTime(ts: string) {
+  return new Date(ts).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
 export function ChatPage() {
   const { patientId } = useParams<{ patientId: string }>();
   const navigate = useNavigate();
@@ -176,16 +183,27 @@ export function ChatPage() {
         {messages.map(msg => (
           <div key={msg.id} className={`message-row ${msg.role}`}>
             {msg.role === 'user' ? (
-              <div className="bubble user-bubble">
-                {msg.image_url && (
-                  <img src={msg.image_url} className="message-image" alt="Attached image" />
-                )}
-                {msg.content && <p className="bubble-text">{msg.content}</p>}
+              <div className="user-message">
+                <div className="user-bubble">
+                  {msg.image_url && (
+                    <img src={msg.image_url} className="message-image" alt="Attached" />
+                  )}
+                  {msg.content && <p className="bubble-text">{msg.content}</p>}
+                </div>
+                <span className="msg-time">{formatTime(msg.timestamp)}</span>
               </div>
             ) : (
-              <div className="bubble assistant-bubble">
+              <div className="assistant-message">
+                {/* Tool call status lines */}
+                {(msg.tool_calls ?? []).map(tc => (
+                  <ToolCallCard key={tc.id} toolCall={tc} />
+                ))}
+
+                {/* Text content */}
                 {msg.content ? (
-                  <MessageContent text={msg.content} />
+                  <div className="assistant-text">
+                    <MessageContent text={msg.content} />
+                  </div>
                 ) : (!msg.tool_calls || msg.tool_calls.length === 0) && isStreaming ? (
                   <div className="thinking">
                     <span className="dot" />
@@ -193,9 +211,10 @@ export function ChatPage() {
                     <span className="dot" />
                   </div>
                 ) : null}
-                {(msg.tool_calls ?? []).map(tc => (
-                  <ToolCallCard key={tc.id} toolCall={tc} />
-                ))}
+
+                {(msg.content || (msg.tool_calls && msg.tool_calls.length > 0)) && (
+                  <span className="msg-time">{formatTime(msg.timestamp)}</span>
+                )}
               </div>
             )}
           </div>

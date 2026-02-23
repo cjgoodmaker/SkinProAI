@@ -158,8 +158,18 @@ export function MessageContent({ text }: { text: string }) {
           case 'stage':
             return <div key={i} className="mc-stage">{seg.label}</div>;
 
-          case 'thinking':
-            return <div key={i} className="mc-thinking">{seg.content}</div>;
+          case 'thinking': {
+            // Spinner only on the last thinking segment (earlier ones are done)
+            const isLast = !segments.slice(i + 1).some(s => s.type !== 'text' || s.content.trim());
+            return (
+              <div key={i} className="mc-thinking">
+                {isLast
+                  ? <span className="mc-thinking-spinner" />
+                  : <span className="mc-thinking-done" />}
+                {seg.content}
+              </div>
+            );
+          }
 
           case 'response':
             return (

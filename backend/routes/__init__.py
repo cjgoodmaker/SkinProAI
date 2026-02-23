@@ -1,1 +1,1 @@
-from . import patients, lesions, analysis
+from . import patients, lesions, analysis, chat

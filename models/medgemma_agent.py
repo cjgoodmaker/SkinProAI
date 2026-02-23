@@ -205,7 +205,7 @@ class MedGemmaAgent:
 
         import os
         import torch
-        from transformers import pipeline
+        from transformers import pipeline, AutoProcessor
 
         # Authenticate with HF Hub (required for gated models like MedGemma)
         hf_token = os.environ.get("HF_TOKEN")
@@ -234,12 +234,22 @@ class MedGemmaAgent:
         )
 
         start = time.time()
+        processor = AutoProcessor.from_pretrained(
+            self.model_id, use_fast=True, token=hf_token,
+        )
         self.pipe = pipeline(
             "image-text-to-text",
             model=self.model_id,
             model_kwargs=model_kwargs,
             token=hf_token,  # pass explicitly in addition to login()
+            image_processor=processor.image_processor,
+            tokenizer=processor.tokenizer,
         )
+
+        # Clear default max_length from generation_config to avoid conflict
+        # with max_new_tokens passed at inference time
+        if hasattr(self.pipe.model, "generation_config"):
+            self.pipe.model.generation_config.max_length = None
 
         self._print(f"Model loaded in {time.time() - start:.1f}s")
         self.loaded = True

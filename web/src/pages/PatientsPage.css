@@ -3,110 +3,204 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60px 20px;
-  background: linear-gradient(180deg, var(--gray-50) 0%, white 100%);
+  background: #fafafa;
+  position: relative;
+  overflow: hidden;
 }
 
-.patients-page .title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--gray-900);
-  margin-bottom: 8px;
+/* ── Sunrise orb ── */
+.patients-page::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 183, 77, 0.45) 0%,
+    rgba(255, 152, 67, 0.30) 25%,
+    rgba(255, 120, 80, 0.18) 45%,
+    rgba(255, 100, 100, 0.08) 65%,
+    transparent 80%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
 }
 
-.patients-page .subtitle {
-  font-size: 1rem;
-  color: var(--gray-500);
-  margin-bottom: 48px;
+.patients-page::after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 200, 100, 0.50) 0%,
+    rgba(255, 170, 70, 0.25) 40%,
+    transparent 70%
+  );
+  filter: blur(25px);
+  pointer-events: none;
+  z-index: 0;
 }
 
-.patients-page .loading {
-  color: var(--gray-500);
-}
-
-.patients-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  max-width: 900px;
-  width: 100%;
-}
-
-.patient-card {
-  background: white;
-  border: 2px solid var(--gray-200);
-  border-radius: 16px;
-  padding: 28px 24px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+/* ── Hero ── */
+.hero {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  padding: 80px 24px 48px;
+  text-align: center;
+  max-width: 600px;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: -0.04em;
+  margin-bottom: 12px;
+}
+
+.tagline {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #555555;
+  margin-bottom: 36px;
+  max-width: 480px;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #111111;
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 36px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.cta-btn:hover {
+  background: #333333;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+}
+
+.cta-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.loading {
+  color: #6b6b6b;
+  padding: 120px 0;
+}
+
+/* ── Section shared ── */
+.patients-section,
+.how-section,
+.about-section {
   position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 24px;
+  margin-bottom: 48px;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #999999;
+  margin-bottom: 16px;
+}
+
+/* ── Patient cards ── */
+.patients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.patient-card {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 18px;
+  padding: 28px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .patient-card:hover {
-  border-color: var(--primary);
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
-  transform: translateY(-2px);
-}
-
-.patient-card.new-patient {
-  border-style: dashed;
-  background: var(--gray-50);
-}
-
-.patient-card.new-patient:hover {
-  background: white;
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transform: translateY(-3px);
 }
 
 .patient-icon {
-  width: 48px;
-  height: 48px;
-  background: var(--gray-100);
+  width: 44px;
+  height: 44px;
+  background: rgba(0, 0, 0, 0.06);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gray-500);
+  color: #555555;
 }
 
 .patient-icon svg {
-  width: 28px;
-  height: 28px;
-}
-
-.add-icon {
-  width: 48px;
-  height: 48px;
-  background: var(--primary);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  font-weight: 300;
+  width: 24px;
+  height: 24px;
 }
 
 .patient-name {
   font-weight: 600;
-  color: var(--gray-800);
-  font-size: 1rem;
+  color: #1a1a1a;
+  font-size: 0.95rem;
   text-align: center;
 }
 
-
 .delete-btn {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 10px;
+  right: 10px;
   background: transparent;
   border: none;
   padding: 6px;
   cursor: pointer;
-  color: var(--gray-400);
+  color: #aaaaaa;
   opacity: 0;
   transition: all 0.2s;
   border-radius: 6px;
@@ -118,19 +212,138 @@
 
 .delete-btn:hover {
   color: #ef4444;
-  background: #fef2f2;
+  background: rgba(239, 68, 68, 0.08);
 }
 
 .delete-btn svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
-/* Modal */
+/* ── How It Works ── */
+.steps-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.step-card {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 18px;
+  padding: 28px 24px;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #111111;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.step-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 6px;
+}
+
+.step-card p {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #666666;
+}
+
+/* ── About ── */
+.about-card {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  padding: 36px 32px;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.about-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111111;
+  margin-bottom: 14px;
+}
+
+.about-card p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #444444;
+  margin-bottom: 14px;
+}
+
+.about-card p strong {
+  color: #1a1a1a;
+}
+
+.tech-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pill {
+  background: rgba(0, 0, 0, 0.06);
+  color: #333333;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ── Disclaimer ── */
+.disclaimer {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 24px;
+  margin-bottom: 60px;
+}
+
+.disclaimer p {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #888888;
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 24px;
+}
+
+.disclaimer strong {
+  color: #666666;
+}
+
+/* ── Modal (glassmorphic) ── */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,33 +351,39 @@
 }
 
 .modal {
-  background: white;
-  border-radius: 16px;
-  padding: 28px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  padding: 32px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.12),
+    0 8px 16px rgba(0, 0, 0, 0.06);
 }
 
 .modal h2 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--gray-800);
+  color: #111111;
   margin-bottom: 20px;
 }
 
 .modal input {
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid var(--gray-300);
-  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
   font-size: 1rem;
   margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .modal input:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: rgba(0, 0, 0, 0.3);
 }
 
 .modal-buttons {
@@ -175,34 +394,51 @@
 
 .cancel-btn {
   background: transparent;
-  border: 1px solid var(--gray-300);
-  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
   padding: 10px 20px;
   font-size: 0.875rem;
-  color: var(--gray-600);
+  color: #555555;
   cursor: pointer;
+  transition: all 0.2s;
 }
 
 .cancel-btn:hover {
-  background: var(--gray-50);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .create-btn {
-  background: var(--primary);
+  background: #111111;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 10px 24px;
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s;
 }
 
 .create-btn:hover {
-  background: var(--primary-hover);
+  background: #333333;
 }
 
 .create-btn:disabled {
-  background: var(--gray-300);
+  background: #cccccc;
   cursor: not-allowed;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .title {
+    font-size: 2.25rem;
+  }
+
+  .steps-row {
+    grid-template-columns: 1fr;
+  }
+
+  .patients-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
 }
