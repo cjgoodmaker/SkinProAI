@@ -220,6 +220,19 @@ export function ChatPage() {
           </div>
         ))}
 
+        {/* Hint after analysis completes */}
+        {!isStreaming && messages.length > 0 && (() => {
+          const last = messages[messages.length - 1];
+          const hasAnalysis = last.role === 'assistant' &&
+            (last.tool_calls ?? []).some(tc => tc.tool === 'analyze_image');
+          if (!hasAnalysis) return null;
+          return (
+            <p className="post-analysis-hint">
+              Ask a follow-up question, add context, or upload an image to compare to previous.
+            </p>
+          );
+        })()}
+
         <div ref={messagesEndRef} />
       </main>
 

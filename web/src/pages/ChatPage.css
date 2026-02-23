@@ -219,6 +219,15 @@
   30% { transform: translateY(-6px); }
 }
 
+/* ─── Post-analysis hint ─────────────────────────────────────────────────── */
+.post-analysis-hint {
+  font-size: 0.8125rem;
+  color: #999999;
+  font-style: italic;
+  padding: 6px 0;
+  margin: 0;
+}
+
 /* ─── Input bar ──────────────────────────────────────────────────────────── */
 .chat-input-bar {
   background: rgba(255, 255, 255, 0.8);

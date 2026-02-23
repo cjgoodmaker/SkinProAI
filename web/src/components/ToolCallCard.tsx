@@ -13,6 +13,7 @@ const TOOL_LABELS: Record<string, string> = {
   classify: 'Running classifier',
   gradcam: 'Generating attention map',
   guidelines: 'Searching clinical guidelines',
+  search_guidelines: 'Searching clinical guidelines',
 };
 
 const STATUS_CONFIG: Record<string, { label: string; dot: string }> = {

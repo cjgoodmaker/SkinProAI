@@ -517,10 +517,10 @@ Be concise and specific."""
                 ):
                     yield chunk
 
-        # Yield confirmation request
-        if convnext_result:
-            top = convnext_result['predictions'][0]
-            yield f"\n[CONFIRM:diagnosis]Do you agree with the integrated assessment?[/CONFIRM]\n"
+        # ===== PHASE 4: Auto Management Guidance (with RAG) =====
+        if convnext_result and self.mcp_client:
+            for chunk in self.generate_management_guidance():
+                yield chunk
 
     def generate_management_guidance(
         self,
