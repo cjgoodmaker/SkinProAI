@@ -255,7 +255,7 @@ class MedGemmaAgent:
             self._print("Using CPU")
 
         model_kwargs = dict(
-            dtype=torch.bfloat16 if device != "cpu" else torch.float32,
+            dtype=torch.bfloat16,  # bfloat16 on all devices (halves RAM on CPU: ~8GB vs ~16GB)
             device_map="auto",
         )
 
