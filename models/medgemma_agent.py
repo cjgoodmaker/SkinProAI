@@ -341,7 +341,7 @@ class MedGemmaAgent:
 
         try:
             time.sleep(0.2)
-            output = self.pipe(messages, max_new_tokens=400)
+            output = self.pipe(messages, max_new_tokens=200)
             result = output[0]["generated_text"][-1]["content"]
             findings['synthesis'] = result
 
@@ -411,7 +411,7 @@ Be concise and specific."""
         ]
 
         try:
-            output = self.pipe(messages, max_new_tokens=300)
+            output = self.pipe(messages, max_new_tokens=150)
             reconciliation = output[0]["generated_text"][-1]["content"]
             self.last_reconciliation = reconciliation
 
@@ -643,7 +643,7 @@ Be specific to THIS lesion. 3-5 sentences maximum."""
         # Generate response
         start = time.time()
         try:
-            output = self.pipe(messages, max_new_tokens=250)
+            output = self.pipe(messages, max_new_tokens=150)
             response = output[0]["generated_text"][-1]["content"]
 
             yield f"[RESPONSE]\n"
@@ -820,7 +820,7 @@ Provide your assessment:
 
         try:
             yield f"[THINKING]Comparing current image to previous findings...[/THINKING]\n"
-            output = self.pipe(messages, max_new_tokens=400)
+            output = self.pipe(messages, max_new_tokens=200)
             comparison_result = output[0]["generated_text"][-1]["content"]
 
             yield f"[RESPONSE]\n"
@@ -863,7 +863,7 @@ Provide your assessment:
         content.append({"type": "text", "text": message})
 
         messages = [{"role": "user", "content": content}]
-        output = self.pipe(messages, max_new_tokens=512)
+        output = self.pipe(messages, max_new_tokens=200)
         return output[0]["generated_text"][-1]["content"]
 
     def chat_followup(self, message: str) -> Generator[str, None, None]:
@@ -917,7 +917,7 @@ Provide a concise, informative response. If the question is outside your experti
             yield f"[THINKING]Considering your question in context of the previous analysis...[/THINKING]\n"
             time.sleep(0.2)
 
-            output = self.pipe(messages, max_new_tokens=400)
+            output = self.pipe(messages, max_new_tokens=200)
             response = output[0]["generated_text"][-1]["content"]
 
             yield f"[RESPONSE]\n"

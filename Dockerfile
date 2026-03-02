@@ -33,12 +33,25 @@ COPY --chown=user mcp_server/ mcp_server/
 COPY --chown=user data/case_store.py data/case_store.py
 COPY --chown=user guidelines/ guidelines/
 
+# Pre-download MONET and sentence-transformers models so first request is fast
+RUN python -c "\
+from transformers import AutoProcessor, AutoModelForZeroShotImageClassification; \
+AutoProcessor.from_pretrained('chanwkim/monet'); \
+AutoModelForZeroShotImageClassification.from_pretrained('chanwkim/monet'); \
+from sentence_transformers import SentenceTransformer; \
+SentenceTransformer('all-MiniLM-L6-v2'); \
+print('Models cached')"
+
 # Runtime data directories — must be writable by user 1000
 RUN mkdir -p data/uploads data/patient_chats data/lesions && \
     echo '{"patients": []}' > data/patients.json && \
     chown -R user:user data/
 
 USER user
+
+# Fix OMP_NUM_THREADS warning and ensure all CPU cores are used
+ENV OMP_NUM_THREADS=4
+ENV MKL_NUM_THREADS=4
 
 EXPOSE 7860
 
